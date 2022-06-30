@@ -1,3 +1,4 @@
+//
 class ISODuration {
   final num? year, month, week, day, minute, hour, seconds;
   const ISODuration({
@@ -10,15 +11,31 @@ class ISODuration {
     this.seconds = 0,
   });
   @override
+  //Duration will be shown a text string
   String toString() {
     String duration = '';
-    year != 0 ? duration = '$duration $year year' : null;
-    month != 0 ? duration = '$duration $month month' : null;
-    week != 0 ? duration = '$duration $week week' : null;
-    day != 0 ? duration = '$duration $day day' : null;
-    hour != 0 ? duration = '$duration $hour hour' : null;
-    minute != 0 ? duration = '$duration $minute minute' : null;
-    seconds != 0 ? duration = '$duration $seconds seconds' : null;
+    if (year != 0) {
+      duration = '$duration $year year';
+    }
+
+    if (month != 0) {
+      duration = '$duration $month month';
+    }
+    if (week != 0) {
+      duration = '$duration $week week';
+    }
+    if (day != 0) {
+      duration = '$duration $day day';
+    }
+    if (hour != 0) {
+      duration = '$duration $hour hour';
+    }
+    if (minute != 0) {
+      duration = '$duration $minute minute';
+    }
+    if (seconds != 0) {
+      duration = '$duration $seconds seconds';
+    }
     return duration;
   }
 }
