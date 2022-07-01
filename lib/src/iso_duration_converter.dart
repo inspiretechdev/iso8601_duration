@@ -8,7 +8,7 @@ import 'package:iso8601_duration/src/duration.dart';
 ///
 /// Parsed result will be returned in [ISODuration] format.
 class ISODurationConverter {
-  //This helps to parse the string in PnYnMnDTnHnMnS or PnW format.
+  ///Parse the string in PnYnMnDTnHnMnS or PnW format and returns the result in ISODuration format.
   parseString({required String isoDurationString}) {
     //Check if string has extra characters
     void _validation(String isoDurationString) {
@@ -20,11 +20,16 @@ class ISODurationConverter {
     }
 
     _validation(isoDurationString);
-    late int start;
-    num year = 0, month = 0, week = 0, day = 0, min = 0, hour = 0, seconds = 0;
-    /*---------------------------------------------------------------------------
-    //Extracts the duration from string using position identifier
-    --------------------------------------------------------------------------- */
+    late int _start;
+    num _year = 0,
+        _month = 0,
+        _week = 0,
+        _day = 0,
+        _min = 0,
+        _hour = 0,
+        _seconds = 0;
+
+    ///Extracts the duration from string using position identifier
     _getDuration(int start, int durationPosition) {
       try {
         return num.parse(isoDurationString.substring(start, durationPosition));
@@ -33,9 +38,7 @@ class ISODurationConverter {
       }
     }
 
-    /*---------------------------------------------------------------------------
     //Identify duration positions
-    --------------------------------------------------------------------------- */
     int _periodPos = isoDurationString.indexOf('P');
     int _yearPos = isoDurationString.indexOf('Y', _periodPos);
     int _weekPos = isoDurationString.indexOf('W');
@@ -59,61 +62,61 @@ class ISODurationConverter {
 
     //Year
     if (!_yearPos.isNegative && !_periodPos.isNegative) {
-      year = _getDuration(1, _yearPos);
+      _year = _getDuration(1, _yearPos);
     }
     //Month
     if (!_periodPos.isNegative && !_monthPos.isNegative) {
-      start = _yearPos.isNegative ? _periodPos + 1 : _yearPos + 1;
-      month = _getDuration(start, _monthPos);
+      _start = _yearPos.isNegative ? _periodPos + 1 : _yearPos + 1;
+      _month = _getDuration(_start, _monthPos);
     }
     //Week
     if (!_periodPos.isNegative && !_weekPos.isNegative) {
-      start = _monthPos.isNegative
+      _start = _monthPos.isNegative
           ? _yearPos.isNegative
               ? _periodPos + 1
               : _yearPos + 1
           : _monthPos + 1;
-      week = _getDuration(start, _weekPos);
+      _week = _getDuration(_start, _weekPos);
     }
     //Day
     if (!_periodPos.isNegative && !_dayPos.isNegative) {
-      start = _weekPos.isNegative //yes
+      _start = _weekPos.isNegative //yes
           ? _monthPos.isNegative
               ? _yearPos.isNegative
                   ? _periodPos + 1
                   : _yearPos + 1
               : _monthPos + 1
           : _weekPos + 1;
-      day = _getDuration(start, _dayPos);
+      _day = _getDuration(_start, _dayPos);
     }
     //Hour
     if (!_timePos.isNegative && !_hourPos.isNegative) {
-      start = _timePos + 1;
-      hour = _getDuration(start, _hourPos);
+      _start = _timePos + 1;
+      _hour = _getDuration(_start, _hourPos);
     }
     //Minute
     if (!_timePos.isNegative && !_minutePos.isNegative) {
-      start = _hourPos.isNegative ? _timePos + 1 : _hourPos + 1;
-      min = _getDuration(start, _minutePos);
+      _start = _hourPos.isNegative ? _timePos + 1 : _hourPos + 1;
+      _min = _getDuration(_start, _minutePos);
     }
     //Seconds
     if (!_timePos.isNegative && !_secondsPos.isNegative) {
-      start = _minutePos.isNegative
+      _start = _minutePos.isNegative
           ? _hourPos.isNegative
               ? _timePos + 1
               : _hourPos + 1
           : _minutePos + 1;
-      seconds = _getDuration(start, _secondsPos);
+      _seconds = _getDuration(_start, _secondsPos);
     }
 
     return ISODuration(
-      year: year,
-      month: month,
-      week: week,
-      day: day,
-      hour: hour,
-      minute: min,
-      seconds: seconds,
+      year: _year,
+      month: _month,
+      week: _week,
+      day: _day,
+      hour: _hour,
+      minute: _min,
+      seconds: _seconds,
     );
   }
 }

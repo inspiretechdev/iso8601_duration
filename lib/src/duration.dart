@@ -1,4 +1,6 @@
-//
+///A class to show duration information
+///
+///Duration will be returned in Year Month Week Day Minute Hour Seconds format
 class ISODuration {
   final num? year, month, week, day, minute, hour, seconds;
   const ISODuration({
