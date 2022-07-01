@@ -1,8 +1,9 @@
+[![pub package](https://img.shields.io/pub/v/iso8601_duration)](https://img.shields.io/pub/v/iso8601_duration)
 A flutter package to parse ISO 8601 duration.
 
 ## Features
 
-This package helps to parse ISO 8601 duration strings in either **PnW** or **PnYnMnDTnHnMnS** formats.
+This package helps to parse ISO 8601 duration strings in either **PnW** or **PnYnMnDTnHnMnS** formats. 
 
 ## Getting started
 
