@@ -7,3 +7,8 @@ Bug fixes
 ## 0.0.3
 - Added example
 - Added comments
+
+## 0.0.4
+
+- Added documentation
+- Code cleanup
