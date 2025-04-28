@@ -1,4 +1,12 @@
-## 0.1.0
+## 1.3.0
+
+- Bug fixes
+
+## 1.2.0
+
+- Bug fixes
+
+## 1.1.0
 
 - Updated documentation with detailed examples and field descriptions.
 - Added test cases for edge cases and invalid inputs.
