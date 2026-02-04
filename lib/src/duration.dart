@@ -60,8 +60,7 @@ class ISODuration {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(year, month, week, day, hour, minute, seconds);
+  int get hashCode => Object.hash(year, month, week, day, hour, minute, seconds);
 
   /// Converts the duration into a human-readable string format.
   @override
@@ -104,6 +103,6 @@ class ISODuration {
       duration = '$duration $seconds seconds';
     }
     // Return the final duration string.
-    return duration;
+    return duration.trim();
   }
 }
