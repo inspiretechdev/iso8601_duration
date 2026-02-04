@@ -50,15 +50,12 @@ class ISODurationConverter {
 
     //Identify duration positions
     int periodPos = isoDurationString.indexOf('P');
-    int yearPos = getPosition(isoDurationString, 'Y',
-        start: periodPos); // isoDurationString.indexOf('Y', periodPos);
+    int yearPos = getPosition(isoDurationString, 'Y', start: periodPos); // isoDurationString.indexOf('Y', periodPos);
     int weekPos = isoDurationString.indexOf('W');
     int dayPos = isoDurationString.indexOf('D');
     int timePos = isoDurationString.indexOf('T');
-    int hourPos =
-        isoDurationString.indexOf('H', timePos.isNegative ? 0 : timePos);
-    int minutePos =
-        isoDurationString.indexOf('M', timePos.isNegative ? 0 : timePos);
+    int hourPos = isoDurationString.indexOf('H', timePos.isNegative ? 0 : timePos);
+    int minutePos = timePos.isNegative ? -1 : isoDurationString.indexOf('M', timePos);
     int monthPos = 0;
     if (minutePos.isNegative) {
       monthPos = isoDurationString.indexOf('M', 0);
@@ -68,8 +65,19 @@ class ISODurationConverter {
         monthPos = -1;
       }
     }
-    int secondsPos =
-        isoDurationString.indexOf('S', timePos.isNegative ? 0 : timePos);
+    int secondsPos = isoDurationString.indexOf('S', timePos.isNegative ? 0 : timePos);
+
+    // Validate: time components (H, S, or M after date parts) require 'T' separator
+    if (timePos.isNegative) {
+      bool hasHour = isoDurationString.contains('H');
+      bool hasSeconds = isoDurationString.contains('S');
+      // Check for 'M' appearing after 'D' or 'W' (would be a minute without T)
+      int lastDatePos = [dayPos, weekPos].where((p) => !p.isNegative).fold(-1, (a, b) => a > b ? a : b);
+      bool hasMinuteAfterDate = lastDatePos >= 0 && isoDurationString.indexOf('M', lastDatePos) > lastDatePos;
+      if (hasHour || hasSeconds || hasMinuteAfterDate) {
+        throw FormatException(isoDurationMissingTimeSeparatorError);
+      }
+    }
 
     //Year
     if (!yearPos.isNegative && !periodPos.isNegative) {
