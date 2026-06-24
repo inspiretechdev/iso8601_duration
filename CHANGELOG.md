@@ -1,3 +1,7 @@
+## 1.2.2
+
+- Corrected ISO 8601 month parsing and toString output formatting
+
 ## 1.2.1
 
 - Bug fixes
